@@ -13,7 +13,7 @@ with open("players.xlsx", "rb") as template_file:
 
 with st.form("form", clear_on_submit=False, enter_to_submit=False):
 
-    uploaded_file = st.file_uploader("Import player spreadsheet", type=["xlsx"])
+    uploaded_file = st.file_uploader("Import player spreadsheet (download the template above for an example)", type=["xlsx"])
 
     n_teams = st.number_input("Number of teams", min_value=2, max_value=10, step=1)
     min_forwards_per_team = st.number_input("Minimum forwards per team", min_value=3, max_value=10, step=1)

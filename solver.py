@@ -9,7 +9,7 @@ def get_player(row)-> dict:
         "positions": set([pos[0].upper() for pos in [row.Position_1, row.Position_2] if (pos and str(pos) and str(pos) != "nan")])
     }
 
-def get_players(file:streamlit.runtime.uploaded_file_manager.UploadedFile) -> list[dict]:
+def get_players(file:streamlit.runtime.uploaded_file_manager.UploadedFile | str) -> list[dict]:
     df = pd.read_excel(file)
     df = df.rename(columns=lambda x: x.replace(' ', '_'))
     return [get_player(row) for row in df.itertuples()]
@@ -23,7 +23,7 @@ def get_rank_dict(players:list[dict]) -> dict[float, int]:
         rank_dict[rank] += 1
     return rank_dict
 
-def solve(file: streamlit.runtime.uploaded_file_manager.UploadedFile, 
+def solve(file: streamlit.runtime.uploaded_file_manager.UploadedFile | str, 
           n_teams:int, 
           min_forwards_per_team: int, 
           min_defenders_per_team:int,

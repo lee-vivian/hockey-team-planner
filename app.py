@@ -3,11 +3,13 @@ import solver
 
 st.title("Hockey Team Planner :ice_hockey:")
 
-with open("players.xlsx", "rb") as template_file:
+TEMPLATE_FILEPATH = "players.xlsx"
+
+with open(TEMPLATE_FILEPATH, "rb") as template_file:
     st.download_button(
         label="Download Template",
         data=template_file,
-        file_name="players.xlsx",
+        file_name=TEMPLATE_FILEPATH,
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
 
@@ -37,9 +39,25 @@ with st.form("form", clear_on_submit=False, enter_to_submit=False):
         label="Similar number of defenders per team", 
         min_value=0, max_value=30, value=15, step=5)
 
-    submitted = st.form_submit_button("Submit")
-    if submitted:
 
+    test = st.form_submit_button("Try with Template File", type="secondary")
+    if test:
+        result = solver.solve(
+            file=TEMPLATE_FILEPATH,
+            n_teams=n_teams,
+            min_forwards_per_team=min_forwards_per_team,
+            min_defenders_per_team=min_defenders_per_team,
+            per_rank_tier_balance_weight=per_rank_tier_balance_weight,
+            rank_sum_balance_weight=rank_sum_balance_weight,
+            forwards_balance_weight=forwards_balance_weight,
+            defenders_balance_weight=defenders_balance_weight
+        )
+        st.markdown("**Generated Teams:**")
+        for line in result:
+            st.write(line)
+
+    submitted = st.form_submit_button("Submit", type="primary")
+    if submitted:
         if uploaded_file is None:
             st.warning("Please upload a file before submitting")
         else:
